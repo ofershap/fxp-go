@@ -1,0 +1,892 @@
+[
+ {
+  "name": "basic",
+  "out": {
+   "root": {
+    "a": "wow",
+    "b": 2
+   }
+  }
+ },
+ {
+  "name": "nested",
+  "out": {
+   "a": {
+    "b": {
+     "c": {
+      "d": "deep"
+     }
+    }
+   }
+  }
+ },
+ {
+  "name": "attrs-dropped-default",
+  "out": {
+   "root": {
+    "a": "wow"
+   }
+  }
+ },
+ {
+  "name": "attrs-kept",
+  "out": {
+   "root": {
+    "a": "wow",
+    "@_a": "nice"
+   }
+  }
+ },
+ {
+  "name": "boolean-attrs-allowed",
+  "out": {
+   "root": {
+    "a": "wow",
+    "@_a": "nice",
+    "@_checked": true
+   }
+  }
+ },
+ {
+  "name": "attr-parse-values",
+  "out": {
+   "r": {
+    "@_n": 42,
+    "@_f": 1.5,
+    "@_ok": true,
+    "@_s": "x"
+   }
+  }
+ },
+ {
+  "name": "repeated-children",
+  "out": {
+   "r": {
+    "i": [
+     1,
+     2,
+     3
+    ]
+   }
+  }
+ },
+ {
+  "name": "interleaved-repeats",
+  "out": {
+   "r": {
+    "i": [
+     1,
+     2
+    ],
+    "x": 9
+   }
+  }
+ },
+ {
+  "name": "self-closing",
+  "out": {
+   "r": {
+    "empty": "",
+    "a": 1
+   }
+  }
+ },
+ {
+  "name": "empty-root",
+  "out": {
+   "r": ""
+  }
+ },
+ {
+  "name": "mixed-content",
+  "out": {
+   "p": {
+    "b": "bold",
+    "#text": "Helloworld"
+   }
+  }
+ },
+ {
+  "name": "text-before-after",
+  "out": {
+   "r": {
+    "a": 1,
+    "b": 2,
+    "#text": "premidpost"
+   }
+  }
+ },
+ {
+  "name": "whitespace-trim",
+  "out": {
+   "r": {
+    "a": "padded"
+   }
+  }
+ },
+ {
+  "name": "no-trim",
+  "out": {
+   "r": {
+    "a": "  padded  "
+   }
+  }
+ },
+ {
+  "name": "cdata",
+  "out": {
+   "r": "<b>raw</b>"
+  }
+ },
+ {
+  "name": "cdata-prop",
+  "out": {
+   "r": {
+    "#cdata": "raw",
+    "#text": "text"
+   }
+  }
+ },
+ {
+  "name": "comment-dropped",
+  "out": {
+   "r": {
+    "a": 1
+   }
+  }
+ },
+ {
+  "name": "comment-kept",
+  "out": {
+   "r": {
+    "#comment": " kept ",
+    "a": 1
+   }
+  }
+ },
+ {
+  "name": "entities-basic",
+  "out": {
+   "r": "a & b <x> \"q\" 'p'"
+  }
+ },
+ {
+  "name": "entities-numeric",
+  "out": {
+   "r": "&#65;&#x42;&#X43;"
+  }
+ },
+ {
+  "name": "entities-unknown",
+  "out": {
+   "r": "&nosuch; &"
+  }
+ },
+ {
+  "name": "entities-off",
+  "out": {
+   "r": "&amp;"
+  }
+ },
+ {
+  "name": "html-entities-off",
+  "out": {
+   "r": "&nbsp;&copy;"
+  }
+ },
+ {
+  "name": "html-entities-on",
+  "out": {
+   "r": " ©™"
+  }
+ },
+ {
+  "name": "doctype-entity",
+  "out": {
+   "r": "Donald Duck"
+  }
+ },
+ {
+  "name": "declaration-default",
+  "out": {
+   "?xml": "",
+   "r": 1
+  }
+ },
+ {
+  "name": "declaration-attrs",
+  "out": {
+   "?xml": {
+    "@_version": "1.0",
+    "@_encoding": "UTF-8"
+   },
+   "r": 1
+  }
+ },
+ {
+  "name": "declaration-ignored",
+  "out": {
+   "r": 1
+  }
+ },
+ {
+  "name": "pi-tag",
+  "out": {
+   "r": {
+    "?php": "",
+    "a": 1
+   }
+  }
+ },
+ {
+  "name": "pi-ignored",
+  "out": {
+   "r": {
+    "a": 1
+   }
+  }
+ },
+ {
+  "name": "numbers",
+  "out": {
+   "r": {
+    "i": 42,
+    "f": 1.5,
+    "e": 1000,
+    "h": 26,
+    "z": 123,
+    "n": -7
+   }
+  }
+ },
+ {
+  "name": "numbers-off",
+  "out": {
+   "r": {
+    "i": "42",
+    "ok": "true"
+   }
+  }
+ },
+ {
+  "name": "booleans",
+  "out": {
+   "r": {
+    "t": true,
+    "f": false,
+    "n": "True"
+   }
+  }
+ },
+ {
+  "name": "true-number-only",
+  "out": {
+   "r": {
+    "z": 123,
+    "n": 42
+   }
+  }
+ },
+ {
+  "name": "namespaces",
+  "out": {
+   "x:r": {
+    "x:a": 1,
+    "@_xmlns:x": "urn:x"
+   }
+  }
+ },
+ {
+  "name": "remove-ns",
+  "out": {
+   "r": {
+    "a": {
+     "#text": 1,
+     "@_k": "v"
+    }
+   }
+  }
+ },
+ {
+  "name": "preserve-order",
+  "out": [
+   {
+    "r": [
+     {
+      "#text": "pre"
+     },
+     {
+      "a": [
+       {
+        "#text": 1
+       }
+      ],
+      ":@": {
+       "@_x": "2"
+      }
+     },
+     {
+      "#text": "mid"
+     },
+     {
+      "b": [
+       {
+        "#text": 2
+       }
+      ]
+     }
+    ],
+    ":@": {
+     "@_a": "1"
+    }
+   }
+  ]
+ },
+ {
+  "name": "preserve-order-default-attrs",
+  "out": [
+   {
+    "r": [
+     {
+      "a": [
+       {
+        "#text": 1
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name": "stop-node",
+  "error": "Unexpected end of script"
+ },
+ {
+  "name": "unpaired",
+  "out": {
+   "html": {
+    "body": {
+     "br": "",
+     "img": {
+      "@_src": "x"
+     },
+     "p": "t"
+    }
+   }
+  }
+ },
+ {
+  "name": "always-text-node",
+  "out": {
+   "r": {
+    "a": {
+     "#text": "wow"
+    },
+    "b": {
+     "c": {
+      "#text": "x"
+     }
+    }
+   }
+  }
+ },
+ {
+  "name": "attr-group",
+  "out": {
+   "r": {
+    "c": {
+     "#text": "x",
+     ":attrs": {
+      "@_d": "3"
+     }
+    },
+    ":attrs": {
+     "@_a": "1",
+     "@_b": "2"
+    }
+   }
+  }
+ },
+ {
+  "name": "custom-prefix",
+  "out": {
+   "r": {
+    "#text": "x",
+    "$a": "1"
+   }
+  }
+ },
+ {
+  "name": "custom-textname",
+  "out": {
+   "p": {
+    "b": "bold",
+    "text": "Helloworld"
+   }
+  }
+ },
+ {
+  "name": "unclosed-tolerant",
+  "out": {
+   "r": {
+    "a": 1
+   }
+  }
+ },
+ {
+  "name": "mismatch-tolerant",
+  "out": {
+   "r": {
+    "a": {
+     "b": "x"
+    }
+   }
+  }
+ },
+ {
+  "name": "deep-nesting",
+  "out": {
+   "a": {
+    "a": {
+     "a": {
+      "a": {
+       "a": {
+        "a": {
+         "a": {
+          "a": {
+           "a": {
+            "a": "bottom"
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ {
+  "name": "max-nested",
+  "error": "Maximum nested tags exceeded"
+ },
+ {
+  "name": "single-quotes",
+  "out": {
+   "r": {
+    "#text": "x",
+    "@_a": "v1",
+    "@_b": "v2"
+   }
+  }
+ },
+ {
+  "name": "unicode",
+  "out": {
+   "r": {
+    "he": "שלום",
+    "emoji": "🎉"
+   }
+  }
+ },
+ {
+  "name": "cdata-only",
+  "out": {
+   "r": "pure"
+  }
+ },
+ {
+  "name": "empty-attr",
+  "out": {
+   "r": {
+    "#text": "x",
+    "@_a": ""
+   }
+  }
+ },
+ {
+  "name": "nested-arrays",
+  "out": {
+   "r": {
+    "g": [
+     {
+      "i": [
+       1,
+       2
+      ]
+     },
+     {
+      "i": 3
+     }
+    ]
+   }
+  }
+ },
+ {
+  "name": "num-edges",
+  "out": {
+   "r": {
+    "a": 255,
+    "b": 7,
+    "c": -0.5,
+    "d": 1000,
+    "e": 0.001,
+    "f": 0,
+    "g": 0,
+    "h": "Infinity",
+    "i": "NaN",
+    "j": "1_000",
+    "k": "123abc",
+    "l": -16
+   }
+  }
+ },
+ {
+  "name": "attr-num-edges",
+  "out": {
+   "r": {
+    "@_a": 16,
+    "@_b": 123,
+    "@_c": "Infinity",
+    "@_d": 1000
+   }
+  }
+ },
+ {
+  "name": "cdata-multi",
+  "out": {
+   "r": {
+    "#cdata": [
+     "a",
+     "b"
+    ]
+   }
+  }
+ },
+ {
+  "name": "comment-multi",
+  "out": {
+   "r": {
+    "#comment": [
+     "x",
+     "y"
+    ]
+   }
+  }
+ },
+ {
+  "name": "cdata-text-mix",
+  "out": {
+   "r": "t1c1t2c2"
+  }
+ },
+ {
+  "name": "po-cdata",
+  "out": [
+   {
+    "r": [
+     {
+      "#cdata": [
+       {
+        "#text": "raw"
+       }
+      ]
+     },
+     {
+      "a": [
+       {
+        "#text": 1
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name": "po-comment",
+  "out": [
+   {
+    "r": [
+     {
+      "#comment": [
+       {
+        "#text": "c"
+       }
+      ]
+     },
+     {
+      "a": [
+       {
+        "#text": 1
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name": "po-nested",
+  "out": [
+   {
+    "a": [
+     {
+      "b": [
+       {
+        "c": [
+         {
+          "#text": "deep"
+         }
+        ]
+       },
+       {
+        "c": [
+         {
+          "#text": 2
+         }
+        ]
+       }
+      ],
+      ":@": {
+       "@_x": "1"
+      }
+     },
+     {
+      "d": []
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name": "po-bool-attr",
+  "out": [
+   {
+    "r": [
+     {
+      "a": [
+       {
+        "#text": 1
+       }
+      ]
+     }
+    ],
+    ":@": {
+     "@_checked": true
+    }
+   }
+  ]
+ },
+ {
+  "name": "po-decl",
+  "out": [
+   {
+    "?xml": [
+     {
+      "#text": ""
+     }
+    ],
+    ":@": {
+     "@_version": "1.0"
+    }
+   },
+   {
+    "r": [
+     {
+      "#text": 1
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name": "stop-nested-tags",
+  "out": {
+   "r": {
+    "script": "var a = \"<b>\"; var c = \"</b>\";",
+    "a": 1
+   }
+  }
+ },
+ {
+  "name": "stop-deep-path",
+  "error": "Unexpected end of script"
+ },
+ {
+  "name": "stop-not-matched-path",
+  "out": {
+   "r": {
+    "script": "a && b;",
+    "a": 1
+   }
+  }
+ },
+ {
+  "name": "unpaired-nested",
+  "out": {
+   "ul": {
+    "li": [
+     "",
+     "",
+     ""
+    ],
+    "#text": "onetwothree"
+   }
+  }
+ },
+ {
+  "name": "empty-text",
+  "out": {
+   "r": ""
+  }
+ },
+ {
+  "name": "text-entity-trim",
+  "out": {
+   "r": "a & b"
+  }
+ },
+ {
+  "name": "attr-entities",
+  "out": {
+   "r": {
+    "#text": 1,
+    "@_a": "x&y<"
+   }
+  }
+ },
+ {
+  "name": "doctype-no-subset",
+  "out": {
+   "r": 1
+  }
+ },
+ {
+  "name": "doctype-two-entities",
+  "out": {
+   "r": "AB"
+  }
+ },
+ {
+  "name": "doctype-single-quotes",
+  "out": {
+   "r": "A1"
+  }
+ },
+ {
+  "name": "decl-only",
+  "out": {
+   "?xml": {
+    "@_version": "1.0"
+   }
+  }
+ },
+ {
+  "name": "multi-roots",
+  "out": {
+   "a": 1,
+   "b": 2
+  }
+ },
+ {
+  "name": "attr-repeat-children",
+  "out": {
+   "r": {
+    "i": [
+     {
+      "#text": "a",
+      "@_k": "1"
+     },
+     {
+      "#text": "b",
+      "@_k": "2"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "name": "deep-attr-values",
+  "out": {
+   "r": {
+    "a": {
+     "b": {
+      "#text": "v",
+      "@_z": "3"
+     },
+     "@_x": "1",
+     "@_y": "2"
+    }
+   }
+  }
+ },
+ {
+  "name": "mixed-notrim",
+  "out": {
+   "p": {
+    "b": "x",
+    "#text": "a  c"
+   }
+  }
+ },
+ {
+  "name": "po-notrim",
+  "out": [
+   {
+    "r": [
+     {
+      "#text": " pre "
+     },
+     {
+      "a": [
+       {
+        "#text": 1
+       }
+      ]
+     },
+     {
+      "#text": " post "
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name": "cr-lf",
+  "out": {
+   "r": {
+    "a": "x"
+   }
+  }
+ },
+ {
+  "name": "tab-indent",
+  "out": {
+   "r": {
+    "a": "x"
+   }
+  }
+ },
+ {
+  "name": "empty-elems",
+  "out": {
+   "r": {
+    "a": "",
+    "b": "",
+    "c": ""
+   }
+  }
+ },
+ {
+  "name": "attr-special-chars",
+  "out": {
+   "r": {
+    "#text": 1,
+    "@_a": "v<>\"w\""
+   }
+  }
+ }
+]

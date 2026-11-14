@@ -1,0 +1,535 @@
+[
+ {
+  "name": "basic",
+  "xml": "<root><a>wow</a><b>2</b></root>",
+  "options": {}
+ },
+ {
+  "name": "nested",
+  "xml": "<a><b><c><d>deep</d></c></b></a>",
+  "options": {}
+ },
+ {
+  "name": "attrs-dropped-default",
+  "xml": "<root a=\"nice\" checked><a>wow</a></root>",
+  "options": {}
+ },
+ {
+  "name": "attrs-kept",
+  "xml": "<root a=\"nice\" checked><a>wow</a></root>",
+  "options": {
+   "ignoreAttributes": false
+  }
+ },
+ {
+  "name": "boolean-attrs-allowed",
+  "xml": "<root a=\"nice\" checked><a>wow</a></root>",
+  "options": {
+   "ignoreAttributes": false,
+   "allowBooleanAttributes": true
+  }
+ },
+ {
+  "name": "attr-parse-values",
+  "xml": "<r n=\"42\" f=\"1.5\" ok=\"true\" s=\"x\"/>",
+  "options": {
+   "ignoreAttributes": false,
+   "parseAttributeValue": true
+  }
+ },
+ {
+  "name": "repeated-children",
+  "xml": "<r><i>1</i><i>2</i><i>3</i></r>",
+  "options": {}
+ },
+ {
+  "name": "interleaved-repeats",
+  "xml": "<r><i>1</i><x>9</x><i>2</i></r>",
+  "options": {}
+ },
+ {
+  "name": "self-closing",
+  "xml": "<r><empty/><a>1</a></r>",
+  "options": {}
+ },
+ {
+  "name": "empty-root",
+  "xml": "<r/>",
+  "options": {}
+ },
+ {
+  "name": "mixed-content",
+  "xml": "<p>Hello <b>bold</b> world</p>",
+  "options": {}
+ },
+ {
+  "name": "text-before-after",
+  "xml": "<r>pre<a>1</a>mid<b>2</b>post</r>",
+  "options": {}
+ },
+ {
+  "name": "whitespace-trim",
+  "xml": "<r>\n   <a>  padded  </a>\n</r>",
+  "options": {}
+ },
+ {
+  "name": "no-trim",
+  "xml": "<r><a>  padded  </a></r>",
+  "options": {
+   "trimValues": false
+  }
+ },
+ {
+  "name": "cdata",
+  "xml": "<r><![CDATA[<b>raw</b>]]></r>",
+  "options": {}
+ },
+ {
+  "name": "cdata-prop",
+  "xml": "<r>text<![CDATA[raw]]></r>",
+  "options": {
+   "cdataPropName": "#cdata"
+  }
+ },
+ {
+  "name": "comment-dropped",
+  "xml": "<r><!-- gone --><a>1</a></r>",
+  "options": {}
+ },
+ {
+  "name": "comment-kept",
+  "xml": "<r><!-- kept --><a>1</a></r>",
+  "options": {
+   "commentPropName": "#comment"
+  }
+ },
+ {
+  "name": "entities-basic",
+  "xml": "<r>a &amp; b &lt;x&gt; &quot;q&quot; &apos;p&apos;</r>",
+  "options": {}
+ },
+ {
+  "name": "entities-numeric",
+  "xml": "<r>&#65;&#x42;&#X43;</r>",
+  "options": {}
+ },
+ {
+  "name": "entities-unknown",
+  "xml": "<r>&nosuch; &amp;</r>",
+  "options": {}
+ },
+ {
+  "name": "entities-off",
+  "xml": "<r>&amp;</r>",
+  "options": {
+   "processEntities": false
+  }
+ },
+ {
+  "name": "html-entities-off",
+  "xml": "<r>&nbsp;&copy;</r>",
+  "options": {}
+ },
+ {
+  "name": "html-entities-on",
+  "xml": "<r>&nbsp;&copy;&trade;</r>",
+  "options": {
+   "htmlEntities": true
+  }
+ },
+ {
+  "name": "doctype-entity",
+  "xml": "<!DOCTYPE r [<!ENTITY writer \"Donald Duck\">]><r>&writer;</r>",
+  "options": {}
+ },
+ {
+  "name": "declaration-default",
+  "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><r>1</r>",
+  "options": {}
+ },
+ {
+  "name": "declaration-attrs",
+  "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><r>1</r>",
+  "options": {
+   "ignoreAttributes": false
+  }
+ },
+ {
+  "name": "declaration-ignored",
+  "xml": "<?xml version=\"1.0\"?><r>1</r>",
+  "options": {
+   "ignoreDeclaration": true
+  }
+ },
+ {
+  "name": "pi-tag",
+  "xml": "<r><?php echo \"hi\"; ?><a>1</a></r>",
+  "options": {}
+ },
+ {
+  "name": "pi-ignored",
+  "xml": "<r><?php x?><a>1</a></r>",
+  "options": {
+   "ignorePiTags": true
+  }
+ },
+ {
+  "name": "numbers",
+  "xml": "<r><i>42</i><f>1.5</f><e>1e3</e><h>0x1A</h><z>0123</z><n>-7</n></r>",
+  "options": {}
+ },
+ {
+  "name": "numbers-off",
+  "xml": "<r><i>42</i><ok>true</ok></r>",
+  "options": {
+   "parseTagValue": false
+  }
+ },
+ {
+  "name": "booleans",
+  "xml": "<r><t>true</t><f>false</f><n>True</n></r>",
+  "options": {}
+ },
+ {
+  "name": "true-number-only",
+  "xml": "<r><z>0123</z><n>42</n></r>",
+  "options": {
+   "parseTrueNumberOnly": true
+  }
+ },
+ {
+  "name": "namespaces",
+  "xml": "<x:r xmlns:x=\"urn:x\"><x:a>1</x:a></x:r>",
+  "options": {
+   "ignoreAttributes": false
+  }
+ },
+ {
+  "name": "remove-ns",
+  "xml": "<x:r xmlns:x=\"urn:x\"><x:a x:k=\"v\">1</x:a></x:r>",
+  "options": {
+   "ignoreAttributes": false,
+   "removeNSPrefix": true
+  }
+ },
+ {
+  "name": "preserve-order",
+  "xml": "<r a=\"1\">pre<a x=\"2\">1</a>mid<b>2</b></r>",
+  "options": {
+   "preserveOrder": true,
+   "ignoreAttributes": false
+  }
+ },
+ {
+  "name": "preserve-order-default-attrs",
+  "xml": "<r a=\"1\"><a>1</a></r>",
+  "options": {
+   "preserveOrder": true
+  }
+ },
+ {
+  "name": "stop-node",
+  "xml": "<r><script>if (a < b) { x && y; }</script><a>1</a></r>",
+  "options": {
+   "stopNodes": [
+    "r.script"
+   ]
+  }
+ },
+ {
+  "name": "unpaired",
+  "xml": "<html><body><br><img src=\"x\"><p>t</p></body></html>",
+  "options": {
+   "unpairedTags": [
+    "br",
+    "img"
+   ],
+   "ignoreAttributes": false
+  }
+ },
+ {
+  "name": "always-text-node",
+  "xml": "<r><a>wow</a><b><c>x</c></b></r>",
+  "options": {
+   "alwaysCreateTextNode": true
+  }
+ },
+ {
+  "name": "attr-group",
+  "xml": "<r a=\"1\" b=\"2\"><c d=\"3\">x</c></r>",
+  "options": {
+   "ignoreAttributes": false,
+   "attributesGroupName": ":attrs"
+  }
+ },
+ {
+  "name": "custom-prefix",
+  "xml": "<r a=\"1\">x</r>",
+  "options": {
+   "ignoreAttributes": false,
+   "attributeNamePrefix": "$"
+  }
+ },
+ {
+  "name": "custom-textname",
+  "xml": "<p>Hello <b>bold</b> world</p>",
+  "options": {
+   "textNodeName": "text"
+  }
+ },
+ {
+  "name": "unclosed-tolerant",
+  "xml": "<r><a>1</a>",
+  "options": {}
+ },
+ {
+  "name": "mismatch-tolerant",
+  "xml": "<r><a><b>x</a></b></r>",
+  "options": {}
+ },
+ {
+  "name": "deep-nesting",
+  "xml": "<a><a><a><a><a><a><a><a><a><a>bottom</a></a></a></a></a></a></a></a></a></a>",
+  "options": {}
+ },
+ {
+  "name": "max-nested",
+  "xml": "<a><a><a><a><a><a>bottom</a></a></a></a></a></a>",
+  "options": {
+   "maxNestedTags": 3
+  }
+ },
+ {
+  "name": "single-quotes",
+  "xml": "<r a='v1' b='v2'>x</r>",
+  "options": {
+   "ignoreAttributes": false
+  }
+ },
+ {
+  "name": "unicode",
+  "xml": "<r><he>\u05e9\u05dc\u05d5\u05dd</he><emoji>\ud83c\udf89</emoji></r>",
+  "options": {}
+ },
+ {
+  "name": "cdata-only",
+  "xml": "<r><![CDATA[pure]]></r>",
+  "options": {}
+ },
+ {
+  "name": "empty-attr",
+  "xml": "<r a=\"\">x</r>",
+  "options": {
+   "ignoreAttributes": false
+  }
+ },
+ {
+  "name": "nested-arrays",
+  "xml": "<r><g><i>1</i><i>2</i></g><g><i>3</i></g></r>",
+  "options": {}
+ },
+ {
+  "name": "num-edges",
+  "xml": "<r><a>0xFF</a><b>+7</b><c>-.5</c><d>1E3</d><e>1e-3</e><f>00</f><g>0.0</g><h>Infinity</h><i>NaN</i><j>1_000</j><k>123abc</k><l>-0x10</l></r>",
+  "options": {}
+ },
+ {
+  "name": "attr-num-edges",
+  "xml": "<r a=\"0x10\" b=\"0123\" c=\"Infinity\" d=\"1e3\"/>",
+  "options": {
+   "ignoreAttributes": false,
+   "parseAttributeValue": true
+  }
+ },
+ {
+  "name": "cdata-multi",
+  "xml": "<r><![CDATA[a]]><![CDATA[b]]></r>",
+  "options": {
+   "cdataPropName": "#cdata"
+  }
+ },
+ {
+  "name": "comment-multi",
+  "xml": "<r><!--x--><!--y--></r>",
+  "options": {
+   "commentPropName": "#comment"
+  }
+ },
+ {
+  "name": "cdata-text-mix",
+  "xml": "<r>t1<![CDATA[c1]]>t2<![CDATA[c2]]></r>",
+  "options": {}
+ },
+ {
+  "name": "po-cdata",
+  "xml": "<r><![CDATA[raw]]><a>1</a></r>",
+  "options": {
+   "preserveOrder": true,
+   "cdataPropName": "#cdata"
+  }
+ },
+ {
+  "name": "po-comment",
+  "xml": "<r><!--c--><a>1</a></r>",
+  "options": {
+   "preserveOrder": true,
+   "commentPropName": "#comment"
+  }
+ },
+ {
+  "name": "po-nested",
+  "xml": "<a><b x=\"1\"><c>deep</c><c>2</c></b><d/></a>",
+  "options": {
+   "preserveOrder": true,
+   "ignoreAttributes": false
+  }
+ },
+ {
+  "name": "po-bool-attr",
+  "xml": "<r checked><a>1</a></r>",
+  "options": {
+   "preserveOrder": true,
+   "ignoreAttributes": false,
+   "allowBooleanAttributes": true
+  }
+ },
+ {
+  "name": "po-decl",
+  "xml": "<?xml version=\"1.0\"?><r>1</r>",
+  "options": {
+   "preserveOrder": true,
+   "ignoreAttributes": false
+  }
+ },
+ {
+  "name": "stop-nested-tags",
+  "xml": "<r><script>var a = \"<b>\"; var c = \"</b>\";</script><a>1</a></r>",
+  "options": {
+   "stopNodes": [
+    "r.script"
+   ]
+  }
+ },
+ {
+  "name": "stop-deep-path",
+  "xml": "<r><s><script>x < y</script></s></r>",
+  "options": {
+   "stopNodes": [
+    "r.s.script"
+   ]
+  }
+ },
+ {
+  "name": "stop-not-matched-path",
+  "xml": "<r><script>a && b;</script><a>1</a></r>",
+  "options": {
+   "stopNodes": [
+    "other.script"
+   ]
+  }
+ },
+ {
+  "name": "unpaired-nested",
+  "xml": "<ul><li>one<li>two<li>three</ul>",
+  "options": {
+   "unpairedTags": [
+    "li"
+   ]
+  }
+ },
+ {
+  "name": "empty-text",
+  "xml": "<r>   </r>",
+  "options": {}
+ },
+ {
+  "name": "text-entity-trim",
+  "xml": "<r> a &amp; b </r>",
+  "options": {}
+ },
+ {
+  "name": "attr-entities",
+  "xml": "<r a=\"x&amp;y&lt;\">1</r>",
+  "options": {
+   "ignoreAttributes": false
+  }
+ },
+ {
+  "name": "doctype-no-subset",
+  "xml": "<!DOCTYPE html><r>1</r>",
+  "options": {}
+ },
+ {
+  "name": "doctype-two-entities",
+  "xml": "<!DOCTYPE r [<!ENTITY a \"A\"><!ENTITY b \"B\">]><r>&a;&b;</r>",
+  "options": {}
+ },
+ {
+  "name": "doctype-single-quotes",
+  "xml": "<!DOCTYPE r [<!ENTITY a 'A1'>]><r>&a;</r>",
+  "options": {}
+ },
+ {
+  "name": "decl-only",
+  "xml": "<?xml version=\"1.0\"?>",
+  "options": {
+   "ignoreAttributes": false
+  }
+ },
+ {
+  "name": "multi-roots",
+  "xml": "<a>1</a><b>2</b>",
+  "options": {}
+ },
+ {
+  "name": "attr-repeat-children",
+  "xml": "<r><i k=\"1\">a</i><i k=\"2\">b</i></r>",
+  "options": {
+   "ignoreAttributes": false
+  }
+ },
+ {
+  "name": "deep-attr-values",
+  "xml": "<r><a x=\"1\" y=\"2\"><b z=\"3\">v</b></a></r>",
+  "options": {
+   "ignoreAttributes": false
+  }
+ },
+ {
+  "name": "mixed-notrim",
+  "xml": "<p>a <b>x</b> c</p>",
+  "options": {
+   "trimValues": false
+  }
+ },
+ {
+  "name": "po-notrim",
+  "xml": "<r> pre <a>1</a> post </r>",
+  "options": {
+   "preserveOrder": true,
+   "trimValues": false
+  }
+ },
+ {
+  "name": "cr-lf",
+  "xml": "<r>\r\n<a>x</a>\r\n</r>",
+  "options": {}
+ },
+ {
+  "name": "tab-indent",
+  "xml": "<r>\n\t<a>x</a>\n</r>",
+  "options": {}
+ },
+ {
+  "name": "empty-elems",
+  "xml": "<r><a></a><b/><c> </c></r>",
+  "options": {}
+ },
+ {
+  "name": "attr-special-chars",
+  "xml": "<r a=\"v&lt;&gt;&quot;w&quot;\">1</r>",
+  "options": {
+   "ignoreAttributes": false
+  }
+ }
+]
