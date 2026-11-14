@@ -6,7 +6,7 @@
 
 Real feeds are schema-less, attribute-heavy, mixed-content, occasionally malformed, and different every quarter. With `encoding/xml` you either write one struct per document shape (the common path) or hand-roll a streaming loop over the Token API. JavaScript engineers have a third option in fast-xml-parser: XML in, plain object out, no schema and no loop.
 
-fxp-go is that engine in pure Go. XML to JSON-compatible maps and back, order-preserving when you need it, tolerant when the feed is messy, differentially pinned to fast-xml-parser v5.12.1 with 84 golden fixtures generated from the JS engine itself.
+fxp-go is that engine in pure Go. XML to JSON-compatible maps and back, order-preserving when you need it, tolerant when the feed is messy, differentially pinned to fast-xml-parser v5.12.1 with 84 golden fixtures generated from the JS engine itself, covering the tested option surface and corpus, not whole-engine equivalence.
 
 ```
 go get github.com/ofershap/fxp-go
@@ -49,7 +49,7 @@ err := fxp.Validate(`<a><b></a>`)
 // fxp: expected closing tag </b> (opened line 1), got </a> (line 1)
 ```
 
-Strict well-formedness checking (tag balance, attribute quoting, tag names) independent of the tolerant parser.
+Strict well-formedness checking - tag balance, attribute quoting, and tag-name syntax only; it is not a schema (XSD/DTD) validator - independent of the tolerant parser: `Parse` accepts malformed input by design, `Validate` rejects it.
 
 ## Preserve order
 
