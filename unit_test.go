@@ -134,5 +134,3 @@ func TestMaxNestedTags(t *testing.T) {
 		t.Fatal(err)
 	}
 }
-
-
