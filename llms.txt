@@ -1,0 +1,19 @@
+# fxp-go
+
+> fast-xml-parser for Go (github.com/ofershap/fxp-go): tolerant XML to
+> JSON-marshalable maps with no structs and no schema work, matching
+> fast-xml-parser 5.12.1 byte-exactly (83-case golden corpus generated from
+> the JS engine, quirks included). Parse, validate, and build XML. Standard
+> library only, no dependencies.
+
+## Usage
+
+- fxp.New(fxp.DefaultOptions()).Parse(xml): XML string to map[string]any, tolerant of malformed input.
+- fxp.Validate(xml): well-formedness check when you need strictness first.
+- fxp.NewBuilder(fxp.DefaultBuildOptions()).Build(v): maps back to XML with escaped text/attribute content.
+- One intentional divergence from the JS engine, pinned by TestDivergenceBareLtSpace.
+
+## Docs
+
+- [README](https://github.com/ofershap/fxp-go#readme): install, examples, parity corpus, security notes, Q&A
+- [pkg.go.dev](https://pkg.go.dev/github.com/ofershap/fxp-go): library API

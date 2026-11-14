@@ -1,0 +1,6 @@
+fxp-go
+Copyright (c) 2026 Ofer Shapira
+
+This product includes a Go port of fast-xml-parser 5.12.1
+(https://github.com/NaturalIntelligence/fast-xml-parser),
+Copyright (c) NaturalIntelligence, licensed under the MIT License.
