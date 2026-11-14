@@ -12,7 +12,7 @@ jobs:
         with:
           go-version: '1.22'
       - run: go vet ./...
-      - run: gofmt -l . | tee /dev/stderr | test -z "$(cat)"
+      - run: test -z "$(gofmt -l .)"
       - run: go test ./...
       - name: fuzz (30s)
         run: go test -fuzz FuzzParse -fuzztime 30s .

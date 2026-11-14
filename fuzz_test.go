@@ -22,7 +22,12 @@ func FuzzParse(f *testing.F) {
 			DefaultOptions,
 			func() Options { o := DefaultOptions(); o.IgnoreAttributes = false; o.PreserveOrder = true; return o },
 			func() Options { o := DefaultOptions(); o.HTMLEntities = true; o.RemoveNSPrefix = true; return o },
-			func() Options { o := DefaultOptions(); o.StopNodes = []string{"r.script"}; o.UnpairedTags = []string{"br"}; return o },
+			func() Options {
+				o := DefaultOptions()
+				o.StopNodes = []string{"r.script"}
+				o.UnpairedTags = []string{"br"}
+				return o
+			},
 		} {
 			p := New(mk())
 			v, err := p.Parse(in)
