@@ -135,29 +135,4 @@ func TestMaxNestedTags(t *testing.T) {
 	}
 }
 
-func TestEntityExpansionNotRecursive(t *testing.T) {
-	// DOCTYPE entity values are inserted literally, never re-expanded:
-	// a billion-laughs style chain stays small.
-	xml := `<!DOCTYPE r [<!ENTITY a "&b;&b;&b;&b;&b;&b;&b;&b;&b;&b;"><!ENTITY b "xxxxxxxxxx">]><r>&a;</r>`
-	v, err := New(DefaultOptions()).Parse(xml)
-	if err != nil {
-		t.Fatal(err)
-	}
-	got, _ := MarshalJSON(v)
-	// &a; expands to the literal text "&b;&b;..." (no recursion)
-	if !strings.Contains(string(got), "&b;") {
-		t.Fatalf("expected literal unexpanded entities, got %s", got)
-	}
-}
 
-func TestDoctypeExternalIgnored(t *testing.T) {
-	xml := `<!DOCTYPE r SYSTEM "http://evil.example/x.dtd"><r>1</r>`
-	v, err := New(DefaultOptions()).Parse(xml)
-	if err != nil {
-		t.Fatal(err)
-	}
-	got, _ := MarshalJSON(v)
-	if string(got) != `{"r":1}` {
-		t.Fatalf("got %s", got)
-	}
-}

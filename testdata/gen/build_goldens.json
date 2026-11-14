@@ -330,5 +330,9 @@
  {
   "name": "attr-special-chars",
   "xml": "<r a=\"v&lt;&gt;&quot;w&quot;\">1</r>"
+ },
+ {
+  "name": "stop-entities-raw",
+  "skip": "ordered/stop"
  }
 ]

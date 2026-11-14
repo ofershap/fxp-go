@@ -531,5 +531,14 @@
   "options": {
    "ignoreAttributes": false
   }
+ },
+ {
+  "name": "stop-entities-raw",
+  "xml": "<r><s>&amp;x</s></r>",
+  "options": {
+   "stopNodes": [
+    "r.s"
+   ]
+  }
  }
 ]

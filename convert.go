@@ -162,6 +162,8 @@ func (c *converter) textAndProps(n *node) (string, map[string]any) {
 			if c.opts.CommentPropName != "" {
 				appendExtra(extra, c.opts.CommentPropName, p.val)
 			}
+		case kindRaw:
+			b.WriteString(p.val)
 		}
 	}
 	return b.String(), extra
@@ -267,6 +269,10 @@ func (c *converter) orderedChildren(n *node, jPath string) []any {
 	_ = order
 
 	emitPart := func(p textPart) {
+		if p.kind == kindRaw {
+			out = append(out, map[string]any{c.opts.TextNodeName: p.val})
+			return
+		}
 		switch p.kind {
 		case kindText:
 			v := p.val

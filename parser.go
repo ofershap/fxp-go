@@ -211,7 +211,7 @@ func (p *Parser) scanTag(rest string, stack []*node, path []string, stops map[st
 				if strings.HasPrefix(content[at:], "</"+name+">") {
 					cur := stack[len(stack)-1]
 					n := cur.child(name)
-					n.addText(kindText, content[:at])
+					n.addText(kindRaw, content[:at])
 					p.pos += i + gt + 1 + at + len(name) + 3
 					return nil, true, nil
 				}

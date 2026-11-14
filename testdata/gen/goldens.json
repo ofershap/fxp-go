@@ -888,5 +888,13 @@
     "@_a": "v<>\"w\""
    }
   }
+ },
+ {
+  "name": "stop-entities-raw",
+  "out": {
+   "r": {
+    "s": "&amp;x"
+   }
+  }
  }
 ]

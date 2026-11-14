@@ -32,6 +32,7 @@ const (
 	kindText textKind = iota
 	kindCdata
 	kindComment
+	kindRaw // stop-node content: never trimmed, never entity-decoded
 )
 
 type textPart struct {
