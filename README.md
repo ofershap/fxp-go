@@ -4,9 +4,9 @@
 
 **The XML your dependencies actually send you is not the XML `encoding/xml` wants.**
 
-Real feeds are schema-less, attribute-heavy, mixed-content, occasionally malformed, and different every quarter. Writing one Go struct per feed is the tax you pay for every SOAP service, RSS variant, `pom.xml`, Android manifest, and K8s CRD you touch. JavaScript engineers solved this years ago with fast-xml-parser: XML in, plain object out, no schema.
+Real feeds are schema-less, attribute-heavy, mixed-content, occasionally malformed, and different every quarter. With `encoding/xml` you either write one struct per document shape (the common path) or hand-roll a streaming loop over the Token API. JavaScript engineers have a third option in fast-xml-parser: XML in, plain object out, no schema and no loop.
 
-fxp-go is that engine in pure Go. XML to JSON-compatible maps and back, order-preserving when you need it, tolerant when the feed is messy, differentially pinned to fast-xml-parser v5.12.1 with 83 golden fixtures generated from the JS engine itself.
+fxp-go is that engine in pure Go. XML to JSON-compatible maps and back, order-preserving when you need it, tolerant when the feed is messy, differentially pinned to fast-xml-parser v5.12.1 with 84 golden fixtures generated from the JS engine itself.
 
 ```
 go get github.com/ofershap/fxp-go
@@ -63,6 +63,10 @@ v, _ := fxp.New(o).Parse(`<p>Hello <b>world</b>!</p>`)
 
 Child order survives, which is what HTML-ish XML, document transforms, and mixed content need.
 
+## Fidelity, precisely
+
+Defaults are lossy, matching the JS engine's defaults: attributes are dropped unless `IgnoreAttributes=false`; repeated sibling tags collapse into arrays; attribute order is not retained (attributes become prefixed map keys); namespace prefixes are kept literally (`x:tag`) unless `RemoveNSPrefix` strips them; mixed text and child elements merge under `#text` with each text part trimmed individually; comments drop unless `CommentPropName` is set; CDATA merges into text unless `CdataPropName` is set. `PreserveOrder` retains child order and attributes under `:@`, at the cost of the more verbose structure shown above. "Roundtrip" (parse then build) is verified semantically - re-parsed outputs deep-compare equal - not byte-exact: key order in built XML is sorted, whitespace is normalized, and dropped-by-default content (attributes, comments) does not come back.
+
 ## Option surface
 
 26 of the 32 documented fast-xml-parser v5.x parse options are implemented and differentially tested: `allowBooleanAttributes`, `alwaysCreateTextNode`, `attributesGroupName`, `attributeNamePrefix`, `attributeValueProcessor`, `cdataPropName`, `commentPropName`, `htmlEntities`, `ignoreAttributes`, `ignoreDeclaration`, `ignorePiTags`, `isArray`, `maxNestedTags`, `parseAttributeValue`, `parseTagValue`, `parseTrueNumberOnly` (no observable difference from defaults on tested inputs), `preserveOrder`, `processEntities`, `removeNSPrefix`, `stopNodes`, `textNodeName`, `transformAttributeName`, `transformTagName`, `trimValues`, `unpairedTags`, `updateTag`.
@@ -73,9 +77,9 @@ The six not implemented: `entityDecoder` (custom decoder callback), `jPath` (jpa
 
 | | fxp-go | encoding/xml | beevik/etree | dasel |
 |---|---|---|---|---|
-| Output without a schema | map/JSON directly | struct per schema | DOM nodes | query results |
+| Output without a schema | map/JSON directly | struct per schema (Unmarshal); Token API streams schema-free | DOM nodes | query results |
 | XML to JSON | yes | manual | manual | yes |
-| Tolerant of malformed input | yes (differentially matched) | strict errors | partial | strict |
+| Tolerant of malformed input | yes (differentially matched; exact scope in the FAQ) | Strict=false: limited (undefined for many malformations) | partial | strict |
 | Preserve child order | yes (option) | yes | yes | yes |
 | JSON-shaped builder | yes | no | no | yes |
 | Dependencies | zero | stdlib | zero | several |
@@ -86,7 +90,7 @@ Tested alternatives are named; no absence claims beyond this table. If your data
 
 Verified in `security_test.go` and by fuzzing (600k+ generated inputs, zero panics):
 
-- **Entity expansion is bounded.** DOCTYPE-defined entities are inserted literally and never re-expanded, so a billion-laughs chain cannot amplify. External DTDs are never fetched (there is no network code).
+- **Entity expansion is not recursive.** DOCTYPE-defined entities are inserted literally and never re-expanded, so the specific billion-laughs mechanism (nested entity references) cannot amplify through this parser. This is not general resource safety: a single large entity value or large input still produces large output. External DTDs are never fetched (there is no network code).
 - **Nesting can be capped** with `MaxNestedTags`; a 2000-deep document parses when uncapped.
 - **CDATA and stop-node content is never entity-decoded.**
 - **Untrusted input:** the parser is tolerant by design and returns errors with line numbers on unrecoverable input; it does not panic. Treat parsed output as untrusted data (no output encoding is applied to map values). If input size is attacker-controlled, bound it before parsing - there are no input-size caps.
@@ -111,13 +115,13 @@ It is the right tool when you control the schema. fxp-go is for the other case: 
 <details>
 <summary><b>Is it safe to parse untrusted XML?</b></summary>
 
-The parser does not panic (fuzz-verified within a finite run: 600k+ inputs), never fetches external resources, caps entity expansion by construction, and can cap nesting depth. It is tolerant rather than strict - use `Validate` first if you need well-formedness guarantees. Bound input size yourself; there are no built-in size caps.
+The parser does not panic (fuzz-verified within a finite run: 600k+ inputs), never fetches external resources, caps entity expansion by construction, and can cap nesting depth. It is tolerant rather than strict - use `Validate` first if you need well-formedness guarantees. Bound input size yourself; there are no built-in size caps on parsing, building, or conversion. The builder escapes text/attribute content but does not validate tag names - pass it only map keys you are comfortable emitting as XML names.
 </details>
 
 <details>
 <summary><b>How exact is the fast-xml-parser parity?</b></summary>
 
-83 golden fixtures generated from fast-xml-parser 5.12.1 compare byte-exact, including its quirks: numeric character references decode only with `htmlEntities`, each mixed text part trims individually before concatenation, grouped attributes keep their prefix, and stop-node content errors on `<` followed by a non-name character. One documented divergence: a bare `<` followed by a space outside stop nodes produces an empty-named element in the JS engine and a parse error in fxp-go.
+83 golden fixtures generated from fast-xml-parser 5.12.1 compare byte-exact, including its quirks: numeric character references decode only with `htmlEntities`, each mixed text part trims individually before concatenation, grouped attributes keep their prefix, and stop-node content errors on `<` followed by a non-name character. One intentional divergence, pinned by a regression test (`TestDivergenceBareLtSpace`): a bare `<` followed by a space outside stop nodes produces an empty-named element in the JS engine; fxp-go rejects it with a parse error. The corpus is 84 parity cases plus such intentionally differing cases, kept separate.
 </details>
 
 <details>

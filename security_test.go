@@ -98,3 +98,48 @@ func TestMalformedInputsErrorNotPanic(t *testing.T) {
 		}()
 	}
 }
+
+// TestDivergenceBareLtSpace pins the intentional divergence from the JS
+// engine: "<" followed by a space outside stop nodes is a parse error here,
+// while fast-xml-parser produces an empty-named element.
+func TestDivergenceBareLtSpace(t *testing.T) {
+	if _, err := New(DefaultOptions()).Parse(`<r><script>a < b</script></r>`); err == nil {
+		t.Fatal("want parse error for bare '< ' input")
+	}
+}
+
+func TestBuilderEscapesInvalidContent(t *testing.T) {
+	b := NewBuilder(DefaultBuildOptions())
+	xml, err := b.Build(map[string]any{"r": map[string]any{"@_a": `x<"&`, "#text": "<>&"}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(xml, `a="x&lt;&quot;&amp;"`) || !strings.Contains(xml, "&lt;&gt;&amp;") {
+		t.Fatalf("got %s", xml)
+	}
+	// re-parse the escaped output: values must come back exactly
+	v, err := New(DefaultOptions()).Parse(xml)
+	if err != nil {
+		t.Fatal(err)
+	}
+	o := DefaultOptions()
+	o.IgnoreAttributes = false
+	v2, _ := New(o).Parse(xml)
+	got, _ := MarshalJSON(v2)
+	want := `{"r":{"#text":"<>&","@_a":"x<\"&"}}`
+	if string(got) != want {
+		t.Fatalf("roundtrip: got %s want %s", got, want)
+	}
+	_ = v
+}
+
+func TestBuilderDeepNesting(t *testing.T) {
+	// 2000-deep nested maps build without stack issues
+	m := map[string]any{"v": "bottom"}
+	for i := 0; i < 2000; i++ {
+		m = map[string]any{"n": m}
+	}
+	if _, err := NewBuilder(DefaultBuildOptions()).Build(map[string]any{"top": m}); err != nil {
+		t.Fatal(err)
+	}
+}

@@ -8,16 +8,16 @@
   <rect width="1280" height="640" fill="url(#bg)" rx="24"/>
   <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
     <text x="80" y="150" fill="#7ee787" font-size="42" font-weight="bold">&lt;catalog&gt;</text>
-    <text x="130" y="210" fill="#79c0ff" font-size="34">&lt;product id=<tspan fill="#a5d6ff">"p1"</tspan>&gt;</text>
+    <text x="130" y="210" fill="#79c0ff" font-size="34">&lt;product&gt;</text>
     <text x="180" y="260" fill="#79c0ff" font-size="34">&lt;price&gt;<tspan fill="#f0f6fc">19.99</tspan>&lt;/price&gt;</text>
     <text x="130" y="310" fill="#79c0ff" font-size="34">&lt;/product&gt;</text>
     <text x="80" y="370" fill="#7ee787" font-size="42" font-weight="bold">&lt;/catalog&gt;</text>
     <text x="610" y="270" fill="#8b949e" font-size="60" font-weight="bold">&#8594;</text>
     <text x="720" y="150" fill="#7ee787" font-size="42" font-weight="bold">{</text>
     <text x="760" y="210" fill="#a5d6ff" font-size="34">"catalog": {</text>
-    <text x="800" y="260" fill="#a5d6ff" font-size="34">"product": [</text>
-    <text x="840" y="310" fill="#f0f6fc" font-size="34">{ "price": 19.99 }</text>
-    <text x="800" y="360" fill="#a5d6ff" font-size="34">]</text>
+    <text x="800" y="260" fill="#a5d6ff" font-size="34">"product": {</text>
+    <text x="840" y="310" fill="#f0f6fc" font-size="34">"price": 19.99</text>
+    <text x="800" y="360" fill="#a5d6ff" font-size="34">}</text>
     <text x="760" y="410" fill="#a5d6ff" font-size="34">}</text>
     <text x="720" y="470" fill="#7ee787" font-size="42" font-weight="bold">}</text>
   </g>
