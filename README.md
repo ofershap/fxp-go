@@ -1,5 +1,7 @@
 # fxp-go
 
+![fxp-go: XML to JSON and back](assets/hero.svg)
+
 **The XML your dependencies actually send you is not the XML `encoding/xml` wants.**
 
 Real feeds are schema-less, attribute-heavy, mixed-content, occasionally malformed, and different every quarter. Writing one Go struct per feed is the tax you pay for every SOAP service, RSS variant, `pom.xml`, Android manifest, and K8s CRD you touch. JavaScript engineers solved this years ago with fast-xml-parser: XML in, plain object out, no schema.
